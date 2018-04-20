@@ -1,37 +1,6 @@
 'use strict';
 
 let autoMocker;
-// let fakeXMLHttpRequest;
-
-/*
-function beginPendingRequest(url) {
-  if (autoMocker && url) {
-    if (!autoMocker.pendingRequests) {
-      autoMocker.pendingRequests = {};
-    }
-    autoMocker.pendingRequests[url] = true;
-  }
-}
-
-function endPendingRequest(url) {
-  debugger;
-  if (autoMocker && autoMocker.pendingRequests && url) {
-    // if the url is actually an event, extract the URL
-    if (typeof url === 'object') {
-      const parsed = parseUri(url.target.responseURL);
-      url = parsed.relative;
-    }
-    if (autoMocker.pendingRequests.hasOwnProperty(url)) {
-      delete autoMocker.pendingRequests[url];
-      if (Object.keys(autoMocker.pendingRequests).length === 0) {
-        if (autoMocker.completedPendingRequestsFunc) {
-          autoMocker.completedPendingRequestsFunc();
-        }
-      }
-    }
-  }
-}
-*/
 
 function installCypressHooks() {
   if (! window.Cypress || ! window.Cypress.autoMocker) {
@@ -168,14 +137,11 @@ FakeXMLHttpRequest.prototype = {
   },
 
   send: function (data) {
-    debugger;
     this.requestBody = data;
     this.object.responseType = this.responseType;
     var matched = false;
     var request = this;
     var matchedItem = null;
-
-    //beginPendingRequest(this.url);
 
     FakeXMLHttpRequest.handlers.forEach(function (item) {
       if ((typeof item.url === 'string' && item.url === request.url) || item.url instanceof RegExp && item.url.test(request.url)) {
