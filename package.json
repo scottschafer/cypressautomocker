@@ -1,0 +1,23 @@
+{
+  "name": "cypressautomocker",
+  "version": "1.0.0",
+  "description": "A set of extensions to cypress.io that allows automatic recording and playback of APIs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scottschafer/cypressautomocker.git"
+  },
+  "keywords": [
+    "cypress.io",
+    "mock"
+  ],
+  "author": "Scott Schafer and Alexander Polatnick",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/scottschafer/cypressautomocker/issues"
+  },
+  "homepage": "https://github.com/scottschafer/cypressautomocker#readme"
+}
