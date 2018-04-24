@@ -3,7 +3,7 @@ describe('test', function () {
   const MOCK_FILENAME = 'testCounter';
 
   before(() => {
-    cy.automock(MOCK_FILENAME, __dirname);
+    cy.automock(MOCK_FILENAME);
   });
 
   beforeEach(() => {

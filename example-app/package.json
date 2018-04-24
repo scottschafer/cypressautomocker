@@ -1,7 +1,6 @@
 {
-  "name": "universal-react",
-  "version": "1.0.0",
-  "description": "Universal React.js starter with the minimum possible code",
+  "name": "example-app",
+  "version": "1.0.2",
   "main": "lib/server.js",
   "scripts": {
     "build": "./node_modules/babel-cli/bin/babel.js src --out-dir lib --plugins transform-react-jsx --presets es2015",
@@ -9,7 +8,7 @@
     "start": "npm run build && npm run bundle && node lib/server.js"
   },
   "author": "Vance Lucas",
-  "license": "BSD",
+  "license": "MIT",
   "dependencies": {
     "ejs": "^2.3.4",
     "express": "^4.13.3",
