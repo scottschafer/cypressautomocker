@@ -52,4 +52,4 @@ Now you are all set! In the future, you can add your own web app and suite of Cy
 
 Also, if you find any bugs in the Automocker while using it please make sure to let us know so we can continue to improve its functionality.
 
-#####Best of Luck!
+######Best of Luck!
