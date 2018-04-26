@@ -5,7 +5,7 @@
   "scripts": {
     "build": "./node_modules/babel-cli/bin/babel.js src --out-dir lib --plugins transform-react-jsx --presets es2015",
     "bundle": "./node_modules/browserify/bin/cmd.js lib/client.js -o public/js/bundle.js",
-    "start": "npm run build && npm run bundle && node lib/server.js"
+    "start": "npm run build && npm run bundle && node lib/server.js | ./node_modules/cypress/bin/cypress open"
   },
   "author": "Vance Lucas",
   "license": "MIT",

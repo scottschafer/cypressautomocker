@@ -17,7 +17,7 @@ npm install --save-dev cypress
 npm start --save cypressautomocker
 ```
 
-At this point, you should see: `Example app listening at http://localhost:1337` which means that the local server is running on port 1337. If you would rather change this port to a different port, you may do this by changing the port number in the baseUrl of `/example/cypress.json` which will be discussed later on. 
+At this point, you should see: `Example app listening at http://localhost:1337` which means that the local server is running on port 1337. Also, the Cypress GUI should be visible after a few moments. If you would rather change this port to a different port, you may do this by changing the port number in the baseUrl of `/example/cypress.json` which will be discussed later on. 
 
 Now if you open a web browser and got to `http://localhost:1337` you will see the sample application running. Now it is time to run a testing example on this web app to familiarize yourself with the process. We will find a test in the `/example/cypress/integration` directory.
 
@@ -37,11 +37,7 @@ We will see `cypress.json` which is an important component to our testing proces
 ```
 The first time you run the the test, regardless of what your settings are if this folder has not been generated, it will generate it for you and record the API calls. Any API calls that are recorded throughout a given test will be written to a JSON (JavaScript Object Notation) file which will be labeled _name-of-your-test.json_ and will be saved into the automocks directory (technically, the data file will be whatever you choose to name it within your Cypress test but it is good practice to keep the names of your tests and data consistent). Each test you run with this setting will save each API call in the form of a JSON object within the file for that particular test. Once the folder is populated with any data, you will be required to use the appropriate settings explained above to record the data and replace the old JSON file with an updated one.
 
-So lets give it a try (go to the `example` directory):
-```
-./node_modules/cypress/bin/cypress open
-```
-In the GUI that pops up you should see `testCounter_spec.js` underneath integration tests. By clicking on that file you will run that test with the given settings you provided in `/example/cypress.json`. Now run the test. The typical Cypress window should pop up displaying the web app and the test progress. On the left hand side you will be able to identify the different API calls that are being triggered and therefore recorded in this instance. Also, if you open the developer tools and look at the console you will see a log of all the API recordings. This will help you keep track of all the API calls being made and help you debug in more complicated circumstances. 
+So lets give it a try. Navigate to the Cypress GUI, and you should see `testCounter_spec.js` underneath integration tests. By clicking on that file you will run that test with the given settings you provided in `/example/cypress.json`. Now run the test. The typical Cypress window should pop up displaying the web app and the test progress. On the left hand side you will be able to identify the different API calls that are being triggered and therefore recorded in this instance. Also, if you open the developer tools and look at the console you will see a log of all the API recordings. This will help you keep track of all the API calls being made and help you debug in more complicated circumstances. 
 
 Now if we go back to the `example/cypress` directory we can see the `automocks` directory which contains the latest recording. By opening the `testCounter.json` file, we can see all of the API call responses saved as JSON objects as expected. Now it is time to use this data to mock the the server. Cypress has a command called _cy.route()_ which allows users to write tests where incoming API calls are stubbed and re-routed back to the frontend. The Automocker library takes all of the data recorded in our first (or recorded) test run, and feeds it into Cypress’s _cy.route()_ commands so that each of those API calls will be stubbed with the appropriate response data when they are called. 
 
@@ -96,7 +92,7 @@ Add the following code:
   "playback": true
 }
 ```
-Now you are ready to develop your suite of tests and start using the Automocker library, except that you have to structure your tests in a way that will implement the use of the library. In `/example-app-tests/cypress/integration/testCounter_spec.js.` you will notice the following structure that you should follow with your tests in order successfully use the Automocker. Make sure to include this general structure in your tests:
+Now you are ready to develop your suite of tests and start using the Automocker library, except that you have to structure your tests in a way that will implement the use of the library. In `/example/cypress/integration/testCounter_spec.js.` you will notice the following structure that you should follow with your tests in order successfully use the Automocker. Make sure to include this general structure in your tests:
 ```
 describe('description-for-test', function () {
 
