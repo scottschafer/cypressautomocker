@@ -17,7 +17,7 @@ npm install --save-dev cypress
 npm start --save cypressautomocker
 ```
 
-At this point, you should see: `Example app listening at http://localhost:1337` which means that the local server is running on port 1337. If you would rather change this port to a different port, you may do this by changing the port number in the baseUrl of `/example-app-tests/cypress.json` which will be discussed later on. 
+At this point, you should see: `Example app listening at http://localhost:1337` which means that the local server is running on port 1337. If you would rather change this port to a different port, you may do this by changing the port number in the baseUrl of `/example/cypress.json` which will be discussed later on. 
 
 Now if you open a web browser and got to `http://localhost:1337` you will see the sample application running. Now it is time to run a testing example on this web app to familiarize yourself with the process. We will find a test in the `/example/cypress/integration` directory.
 
