@@ -1,5 +1,0 @@
-{
-  "baseUrl": "http://localhost:1337",
-  "automockRecord": true,
-  "automockPlayback": true
-}
