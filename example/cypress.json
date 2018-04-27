@@ -1,7 +1,7 @@
 {
   "baseUrl": "http://localhost:1337",
   "automocker": {
-    "record": false,
+    "record": true,
     "playback": true
   }
 }

@@ -237,7 +237,7 @@ function registerAutoMockCommands() {
       apiKeyToMocks[key].push(mock);
     });
 
-    console.log('USING MOCK TESTS');
+    console.log('USING MOCK SERVER');
   }
 
 
@@ -246,18 +246,6 @@ function registerAutoMockCommands() {
     if (!options) {
       options = {};
     }
-
-    // if (!options.recordFilter) {
-    //   options.recordFilter = (config) => {
-    //     return true;
-    //     return config.path[0] === '/' &&
-    //       config.path != '/hcc/main' &&
-    //       (config.method == 'GET' ||
-    //         config.method == 'DELETE' ||
-    //         config.method == 'PUT' ||
-    //         config.method == 'POST');
-    //   }
-    // }
 
     if (options.isCustomMock == undefined) {
       options.isCustomMock = false;
