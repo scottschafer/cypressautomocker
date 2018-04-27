@@ -28,6 +28,9 @@ function registerAutoMockCommands() {
 
   Cypress.Commands.add('automock', (sessionName, options) => {
 
+    const automockRecord = Cypress.config().automocker ? (Cypress.config().automocker.record !== false) : true;
+    const automockPlayback = Cypress.config().automocker ? (Cypress.config().automocker.playback !== false) : true;
+
     const testDirPath = '/cypress/integration';
     options = setOptions(options);
 
@@ -36,17 +39,21 @@ function registerAutoMockCommands() {
       sessionName += '.json';
     }
 
-    currentMockFileName = testDirPath + '/../../automocks/' + sessionName;
+    currentMockFileName = testDirPath + '/../automocks/' + sessionName;
+    //currentMockFileName = testDirPath + '/../../automocks/' + sessionName;
 
     // get the absolute path for recording purposes
-    cy.exec('pwd').then(result => {
-      const absolutePathToMockFile = result.stdout + '/automocks/' + sessionName;
+    cy.exec('pwd',{
+      log: false
+    }).then(result => {
+      const absolutePathToMockFile = result.stdout + '/cypress/automocks/' + sessionName;
 
       // if the config allows us to replay the mock, test if it exists
-      if (Cypress.config().automockPlayback) {
+      if (automockPlayback) {
 
         cy.exec('ls ' + absolutePathToMockFile, {
-          failOnNonZeroExit: false
+          failOnNonZeroExit: false,
+          log: false
         }).then(result => {
           if (result.code === 0) {
             // file exists, so mock APIs
@@ -55,12 +62,12 @@ function registerAutoMockCommands() {
             });
           } else {
             // file doesn't exist, so start recording if allowed
-            if (!currentOptions.isCustomMock && Cypress.config().automockRecord) {
+            if (!currentOptions.isCustomMock && automockRecord) {
               startApiRecording();
             }
           }
         });
-      } else if (!currentOptions.isCustomMock && Cypress.config().automockRecord) {
+      } else if (!currentOptions.isCustomMock && automockRecord) {
         startApiRecording();
       }
     });
@@ -73,7 +80,11 @@ function registerAutoMockCommands() {
       cy.waitOnPendingAPIs().then(() => {
         automocker.isRecording = false;
       })
-      cy.writeMockServer();
+      // use undocumented field to determine if the test failed
+      const wasError = (typeof cy.state === 'function') && !!cy.state().error;
+      if (!wasError) {
+        cy.writeMockServer();
+      }
     }
     automocker.isMocking = false;
   });
@@ -183,9 +194,7 @@ function registerAutoMockCommands() {
                 'contentType': contentType
               };
 
-              if (currentOptions.recordFilter(transformedObject)) {
-                recordedApis.push(transformedObject);
-              }
+              recordedApis.push(transformedObject);
             }
           })();
         }
@@ -238,17 +247,17 @@ function registerAutoMockCommands() {
       options = {};
     }
 
-    if (!options.recordFilter) {
-      options.recordFilter = (config) => {
-        return true;
-        return config.path[0] === '/' &&
-          config.path != '/hcc/main' &&
-          (config.method == 'GET' ||
-            config.method == 'DELETE' ||
-            config.method == 'PUT' ||
-            config.method == 'POST');
-      }
-    }
+    // if (!options.recordFilter) {
+    //   options.recordFilter = (config) => {
+    //     return true;
+    //     return config.path[0] === '/' &&
+    //       config.path != '/hcc/main' &&
+    //       (config.method == 'GET' ||
+    //         config.method == 'DELETE' ||
+    //         config.method == 'PUT' ||
+    //         config.method == 'POST');
+    //   }
+    // }
 
     if (options.isCustomMock == undefined) {
       options.isCustomMock = false;

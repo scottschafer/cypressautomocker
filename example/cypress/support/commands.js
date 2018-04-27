@@ -1,10 +1,10 @@
 // in your app, you would use this:
 //
-//  import registerAutoMockCommands from 'cypressautomocker/include-in-tests';
+// import registerAutoMockCommands from 'cypressautomocker/include-in-tests';
+// registerAutoMockCommands();
 //
 // for this sample, we need to use relative paths:
 import registerAutoMockCommands from '../../../include-in-tests';
-
 registerAutoMockCommands();
 
 // ***********************************************

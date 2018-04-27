@@ -5,11 +5,12 @@
   "scripts": {
     "build": "./node_modules/babel-cli/bin/babel.js src --out-dir lib --plugins transform-react-jsx --presets es2015",
     "bundle": "./node_modules/browserify/bin/cmd.js lib/client.js -o public/js/bundle.js",
-    "start": "npm run build && npm run bundle && node lib/server.js"
+    "start": "npm run build && npm run bundle && node lib/server.js | ./node_modules/cypress/bin/cypress open"
   },
   "author": "Vance Lucas",
   "license": "MIT",
   "dependencies": {
+    "cypressautomocker": "^1.0.2",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "jquery": "^3.3.1",
@@ -18,9 +19,10 @@
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
-    "browserify": "^12.0.1",
     "babel-cli": "^6.1.2",
     "babel-plugin-transform-react-jsx": "^6.0.18",
-    "babel-preset-es2015": "^6.1.2"
+    "babel-preset-es2015": "^6.1.2",
+    "browserify": "^12.0.1",
+    "cypress": "^2.1.0"
   }
 }
