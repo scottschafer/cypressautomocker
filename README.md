@@ -6,7 +6,7 @@ This tool is built on top of the open-source testing platform [Cypress.io](https
 
 There are three subfolders within the head directory:
 1. example: Contains a simple application to test against that implements APIs with changing responses, along with an example Cypress test.
-2. include-in-tests: Conaitns a library to include in your in your test suite,
+2. include-in-tests: Contains a library to include in your in your test suite,
 3. include-in-webapp: Contains a library to include in your application that is being tested.
 
 ##### Running the example
