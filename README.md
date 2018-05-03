@@ -2,6 +2,8 @@
 
 This tool is built on top of the open-source testing platform [Cypress.io](https://www.cypress.io/) to allow recording API results and replaying the APIs as a mock server.
 
+![cypress auto mocker example tests running](https://user-images.githubusercontent.com/1271364/39590019-acdb52ce-4ecd-11e8-94ff-c33cc3894ac7.gif)
+
 ##### Folder layout
 
 There are three subfolders within the head directory:
