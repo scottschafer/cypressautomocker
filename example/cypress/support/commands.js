@@ -7,6 +7,14 @@
 import registerAutoMockCommands from '../../../include-in-tests';
 registerAutoMockCommands();
 
+// Remove fetch from the global window object, so we automatically trigger
+// the XHR fallback. Should be the same as the jQuery implementation?
+beforeEach(function() {
+  cy.on('window:before:load', win => {
+    win.fetch = null;
+  });
+});
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite

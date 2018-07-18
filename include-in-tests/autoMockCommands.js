@@ -10,7 +10,7 @@
 module.exports = registerAutoMockCommands;
 
 function registerAutoMockCommands() {
-  
+
   // for recording or mocking:
   let currentMockFileName = null;
   let currentOptions = null;
@@ -43,7 +43,7 @@ function registerAutoMockCommands() {
     //currentMockFileName = testDirPath + '/../../automocks/' + sessionName;
 
     // get the absolute path for recording purposes
-    cy.exec('pwd',{
+    cy.exec('pwd', {
       log: false
     }).then(result => {
       const absolutePathToMockFile = result.stdout + '/cypress/automocks/' + sessionName;
@@ -167,34 +167,56 @@ function registerAutoMockCommands() {
             const method = xhr.method;
 
             xhr.onload = () => {
+
+              function recordTransformedObject(xhr, requestObject, responseObject) {
+                let contentType = xhr.getResponseHeader('content-type');
+                if (contentType.toLowerCase().indexOf('application/json') !== -1) {
+                  try {
+                    responseObject = JSON.parse(responseObject);
+                  } catch (e) {}
+                }
+                let transformedObject = {
+                  'method': xhr.method,
+                  'path': parseUri(xhr.url).path,
+                  'query': parseUri(xhr.url).query,
+                  'request': requestObject,
+                  'response': responseObject,
+                  'status': xhr.status,
+                  'statusText': xhr.statusText,
+                  'contentType': contentType
+                };
+                recordedApis.push(transformedObject);
+              }
+
               if (old_onload) {
                 old_onload();
               }
               let parsed = parseUri(url);
               let query = '';
+              var blobResponseObject = null;
 
               console.log('RECORD: ' + url);
-              // clone
-              let requestObject = xhr.request ? JSON.parse(JSON.stringify(xhr.request)) : '';
-              let responseObject = xhr.response ? JSON.parse(JSON.stringify(xhr.response)) : '';
-              let contentType = xhr.getResponseHeader('content-type');
-              if (contentType.toLowerCase().indexOf('application/json') !== -1) {
-                try {
-                  responseObject = JSON.parse(responseObject);
-                } catch(e) {}
-              }
-              let transformedObject = {
-                'method': method,
-                'path': parsed.path,
-                'query': parsed.query,
-                'request': requestObject,
-                'response': responseObject,
-                'status': xhr.status,
-                'statusText': xhr.statusText,
-                'contentType': contentType
-              };
 
-              recordedApis.push(transformedObject);
+              if (typeof (xhr.object.response) === 'object') {
+                var fr = new FileReader();
+                fr.onload = function (e) {
+                  var blobText = e.target.result;
+                  blobResponseObject = JSON.parse(blobText);
+                  let requestObject = xhr.request ? JSON.parse(JSON.stringify(xhr.request)) : '';
+                  let responseObject;
+                  if (!blobResponseObject) {
+                    responseObject = xhr.response ? JSON.parse(JSON.stringify(xhr.response)) : '';
+                  } else {
+                    responseObject = blobResponseObject;
+                  }
+                  recordTransformedObject(xhr, requestObject, responseObject);
+                };
+                fr.readAsText(xhr.object.response);
+              } else {
+                let requestObject = xhr.request ? JSON.parse(JSON.stringify(xhr.request)) : '';
+                let responseObject = xhr.response ? JSON.parse(JSON.stringify(xhr.response)) : '';
+                recordTransformedObject(xhr, requestObject, responseObject);
+              }
             }
           })();
         }

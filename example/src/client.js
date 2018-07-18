@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'whatwg-fetch';
 
 // in your app, you would use this:
 //
@@ -10,8 +11,6 @@ import installCypressHooks from '../../include-in-webapp';
 
 installCypressHooks();
 
-
 import Counter from './components/Counter';
 
 ReactDOM.render(<Counter />, document.getElementById('content'));
-

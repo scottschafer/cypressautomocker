@@ -1,6 +1,6 @@
 {
   "name": "cypressautomocker",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A set of extensions to cypress.io that allows automatic recording and playback of APIs",
   "main": "index.js",
   "scripts": {

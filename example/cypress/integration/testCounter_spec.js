@@ -53,4 +53,11 @@ describe('test', function () {
     cy.get('[data-test=counter-label]').contains('8');
   });
 
+  it('fetch and get are equivalent', function () {
+    cy.get('[data-test=button-test-get]').click();
+    cy.get('[data-test=button-test-fetch]').click();
+    cy.get('[data-test=sw1]').contains('https://swapi.co/api');
+    cy.get('[data-test=sw2]').contains('https://swapi.co/api');
+  });
+
 })
