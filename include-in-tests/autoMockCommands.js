@@ -43,15 +43,16 @@ function registerAutoMockCommands() {
     //currentMockFileName = testDirPath + '/../../automocks/' + sessionName;
 
     // get the absolute path for recording purposes
-    cy.exec('pwd', {
+    const pwd = Cypress.platform === 'win32' ? 'cd' : 'pwd'
+    const ls = Cypress.platform === 'win32' ? 'dir ' : 'ls '
+    cy.exec(pwd, {
       log: false
     }).then(result => {
-      const absolutePathToMockFile = result.stdout + '/cypress/automocks/' + sessionName;
-
+      const mockFilePath = result.stdout + '/cypress/automocks/' + sessionName;
+      const absolutePathToMockFile = Cypress.platform === 'win32' ? mockFilePath.split('/').join('\\') : mockFilePath;
       // if the config allows us to replay the mock, test if it exists
       if (automockPlayback) {
-
-        cy.exec('ls ' + absolutePathToMockFile, {
+        cy.exec(ls + absolutePathToMockFile, {
           failOnNonZeroExit: false,
           log: false
         }).then(result => {

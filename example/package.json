@@ -3,9 +3,9 @@
   "version": "1.0.3",
   "main": "lib/server.js",
   "scripts": {
-    "build": "./node_modules/babel-cli/bin/babel.js src --out-dir lib --plugins transform-react-jsx --presets es2015",
-    "bundle": "./node_modules/browserify/bin/cmd.js lib/client.js -o public/js/bundle.js",
-    "start": "npm run build && npm run bundle && node lib/server.js | ./node_modules/cypress/bin/cypress open"
+    "build": "babel src --out-dir lib --plugins transform-react-jsx --presets es2015",
+    "bundle": "browserify lib/client.js -o public/js/bundle.js",
+    "start": "npm run build && npm run bundle && node lib/server.js | cypress open"
   },
   "author": "Vance Lucas",
   "license": "MIT",
