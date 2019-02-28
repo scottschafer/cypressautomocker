@@ -171,7 +171,7 @@ function registerAutoMockCommands() {
 
               function recordTransformedObject(xhr, requestObject, responseObject) {
                 let contentType = xhr.getResponseHeader('content-type');
-                if (contentType.toLowerCase().indexOf('application/json') !== -1) {
+                if (contentType !== null && contentType.toLowerCase().indexOf('application/json') !== -1) {
                   try {
                     responseObject = JSON.parse(responseObject);
                   } catch (e) {}
