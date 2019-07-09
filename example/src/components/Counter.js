@@ -78,6 +78,13 @@ export default class Counter extends React.Component {
           >
             Test fetch
           </button>
+          <button
+            data-test="button-test-post-with-error"
+            type="button"
+            onClick={this.onTestPostWithError.bind(this)}
+          >
+            Post, will return 402
+          </button>
         </h2>
 
         <h3>
@@ -86,7 +93,7 @@ export default class Counter extends React.Component {
         </h3>
         <h3>
           Last result:
-          <span id="result">{this.state.lastMessage} </span>
+          <span data-test="result-text" id="result">{this.state.lastMessage} </span>
         </h3>
         <h2>Example of difference between fetch and $ (ajax)</h2>
         <p data-test="sw1">{JSON.stringify(this.state.sw1)}</p>
@@ -142,5 +149,16 @@ export default class Counter extends React.Component {
           sw1: myJson
         });
       });
+  }
+
+  onTestPostWithError() {
+    const self = this;
+    $.post('/counter?statusCode=402', data => {
+      debugger; // shouldn't hit this
+    }).fail(function (response) {
+      self.setState({
+        lastMessage: (response.status + ', ' + response.responseText)
+      });
+    });
   }
 }

@@ -42,9 +42,12 @@ app.delete('/counter', function (req, res) {
   res.send('counter reset');
 })
 
-
 app.post('/counter', function (req, res) {  
   const query = url.parse(req.url, true).query;
+  if (query.statusCode) {
+    res.status(parseInt(query.statusCode, 10)).send('Returning specified statusCode');
+    return;
+  }
   function respond() {
     if (query.increment) {
       counter += parseInt(query.increment);

@@ -72,3 +72,32 @@ registerAutoMockCommands();
     cy.automockEnd();
   });
 ```
+
+The `cy.automock()` takes an optional parameter whcih may contain a function named `resolveMockFunc`. This can be used to
+resolve to a different recorded mock than this library would normally pick. You can pass it like so:
+
+```
+    cy.automock(MOCK_FILENAME, {
+      resolveMockFunc: (request, mockArray, mock) => {
+        console.log(request.method + ' ' + request.url);
+        // just return the resolved mock. This is a no-op. We could resolve to a different one in mockArray
+        return mock;
+      }
+    });
+```
+
+If this function is passed, it will be called to look up a recorded mock. The function will be called with these parameters:
+  ```
+    - request: XMLHttpRequest
+    - mockArray: Array<{
+        method: string,
+        path: string,
+        query: string,
+        request: string,
+        response: string;
+        status: number;
+        statusText: string;
+        contentType: string; }>;
+     - mock: an entry in mockArray that would be returned, or null
+  It should return either mock, or an entry from mockArray
+```

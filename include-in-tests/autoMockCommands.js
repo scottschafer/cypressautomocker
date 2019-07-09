@@ -4,7 +4,6 @@
  *
  *  * cy.testRequests(filter, cb)
  *  Calls cb() with the array of requests where the URL contains filter.
-
  */
 
 module.exports = registerAutoMockCommands;
@@ -20,6 +19,7 @@ function registerAutoMockCommands() {
   // for mocking
   let apiKeyToMocks = {};
   let apiKeyToCallCounts = {};
+  let mockArray = [];
 
   let completedPendingRequestsFunc = null;
   var pendingApiCount = 0;
@@ -42,7 +42,6 @@ function registerAutoMockCommands() {
     }
 
     currentMockFileName = testDirPath + "/../automocks/" + sessionName;
-    //currentMockFileName = testDirPath + '/../../automocks/' + sessionName;
 
     // get the absolute path for recording purposes
     const pwd = Cypress.platform === "win32" ? "cd" : "pwd";
@@ -139,28 +138,41 @@ function registerAutoMockCommands() {
     isMocking: false,
     mockResponse: request => {
       if (automocker.isMocking) {
-        const key = getApiKey(request);
+        let key = getApiKey(request);
+        let mock = null;
         if (apiKeyToMocks.hasOwnProperty(key)) {
           const apiCount = apiKeyToCallCounts[key]++;
           if (apiCount < apiKeyToMocks[key].length) {
-            const mock = apiKeyToMocks[key][apiCount];
-            let response = mock.response;
-
-            if (typeof response === "object") {
-              // should this be done in all cases? TBD
-              response = JSON.stringify(response);
-            }
-
-            if (mock) {
-              console.log("MOCKING " + request.url);
-              return {
-                status: mock.status,
-                statusText: mock.statusText,
-                response: JSON.stringify(mock.response)
-              };
-            }
+            mock = apiKeyToMocks[key][apiCount];
           }
         }
+
+        if (currentOptions.resolveMockFunc) {
+          mock = currentOptions.resolveMockFunc(request, mockArray, mock);
+        }
+
+        if (mock) {
+          console.log("MOCKING " + request.url);
+
+          // const Http = new XMLHttpRequest();
+          // const url = '/devnull/' + mock.method
+          //   + request.url.substr(request.url.indexOf('//') + 1).split('?')[0];
+          // Http.open('GET', url);
+          // Http.send();
+
+          // let response = mock.response;
+
+          // if (typeof response === "object") {
+          //   // should this be done in all cases? TBD
+          //   response = JSON.stringify(response);
+          // }
+          return {
+            status: mock.status,
+            statusText: mock.statusText,
+            response: JSON.stringify(mock.response)
+          };
+        }
+
       } else if (automocker.isRecording) {
         function prepareOnLoadHandler(xhr) {
           (function() {
@@ -267,8 +279,9 @@ function registerAutoMockCommands() {
     automocker.isMocking = true;
     apiKeyToMocks = {};
     apiKeyToCallCounts = {};
+    mockArray = mocks;
 
-    mocks.forEach(function(mock) {
+    mocks.forEach(function (mock) {
       const key = getApiKey(mock);
       if (!apiKeyToMocks.hasOwnProperty(key)) {
         apiKeyToMocks[key] = [];

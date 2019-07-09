@@ -1,5 +1,6 @@
 {
   "baseUrl": "http://localhost:1337",
+  "viewportHeight": 900,
   "automocker": {
     "record": true,
     "playback": true

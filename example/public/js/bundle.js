@@ -143,7 +143,7 @@ var Counter = function (_React$Component) {
               type: 'button',
               onClick: this.onTestGet.bind(this)
             },
-            'Test get'
+            'Test ajax get'
           ),
           _react2.default.createElement(
             'button',
@@ -153,6 +153,15 @@ var Counter = function (_React$Component) {
               onClick: this.onTestFetch.bind(this)
             },
             'Test fetch'
+          ),
+          _react2.default.createElement(
+            'button',
+            {
+              'data-test': 'button-test-post-with-error',
+              type: 'button',
+              onClick: this.onTestPostWithError.bind(this)
+            },
+            'Post, will return 402'
           )
         ),
         _react2.default.createElement(
@@ -172,7 +181,7 @@ var Counter = function (_React$Component) {
           'Last result:',
           _react2.default.createElement(
             'span',
-            { id: 'result' },
+            { 'data-test': 'result-text', id: 'result' },
             this.state.lastMessage,
             ' '
           )
@@ -253,6 +262,18 @@ var Counter = function (_React$Component) {
       }).then(function (myJson) {
         _this6.setState({
           sw1: myJson
+        });
+      });
+    }
+  }, {
+    key: 'onTestPostWithError',
+    value: function onTestPostWithError() {
+      var self = this;
+      _jquery2.default.post('/counter?statusCode=402', function (data) {
+        debugger; // shouldn't hit this
+      }).fail(function (response) {
+        self.setState({
+          lastMessage: response.status + ', ' + response.responseText
         });
       });
     }
@@ -30510,6 +30531,7 @@ FakeXMLHttpRequest.prototype = {
                 }
               }
             };
+            debugger;
             proxyRequest.open('GET', url);
             proxyRequest.send();
 
