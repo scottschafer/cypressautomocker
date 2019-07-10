@@ -1,26 +1,16 @@
-describe('test', function () {
+/**
+ * Reject a tentative opportunity. Verify that rendering provider is changed to N/A
+ */
+
+/// <reference types="cypress" />
+import '../support/commands'; // seems to help VS Code's IntelliSense
+
+describe('test - typescript', function () {
 
   const MOCK_FILENAME = 'testCounter';
 
   before(() => {
     
-
-    /**
-     * resolveMockFunc is an optional function. If passed, it will be called to look up a recorded mock.
-     * The function will be called with these parameters:
-     *   - request: XMLHttpRequest
-     *   - mockArray: Array<{
-     *       method: string,
-     *       path: string,
-     *       query: string,
-     *       request: string,
-     *       response: string;
-     *       status: number;
-     *       statusText: string;
-     *       contentType: string; }>;
-     *    - mock: an entry in mockArray that would be returned, or null
-     * It should return either mock, or an entry from mockArray
-     */
     cy.automock(MOCK_FILENAME, {
       resolveMockFunc: (request, mockArray, mock) => {
         console.log(request.method + ' ' + request.url);
@@ -57,9 +47,8 @@ describe('test', function () {
   });
 
   // second run, don't reset the counter so that API will proceed from previous value
-  it('basic counter works as expected, run #2b', function () {
+  it('basic counter works as expected, run #2', function () {
 
-    
     // click on buttons that increment the counter after a second (simulating a slower API)
     cy.get('[data-test=button-increment2-delay]').click();
     cy.get('[data-test=button-increment2-delay]').click();

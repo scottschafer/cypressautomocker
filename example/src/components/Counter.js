@@ -153,7 +153,7 @@ export default class Counter extends React.Component {
 
   onTestPostWithError() {
     const self = this;
-    $.post('/counter?statusCode=402', data => {
+    $.post('/error', data => {
       debugger; // shouldn't hit this
     }).fail(function (response) {
       self.setState({

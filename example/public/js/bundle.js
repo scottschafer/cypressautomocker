@@ -269,7 +269,7 @@ var Counter = function (_React$Component) {
     key: 'onTestPostWithError',
     value: function onTestPostWithError() {
       var self = this;
-      _jquery2.default.post('/counter?statusCode=402', function (data) {
+      _jquery2.default.post('/error', function (data) {
         debugger; // shouldn't hit this
       }).fail(function (response) {
         self.setState({
@@ -30531,7 +30531,6 @@ FakeXMLHttpRequest.prototype = {
                 }
               }
             };
-            debugger;
             proxyRequest.open('GET', url);
             proxyRequest.send();
 

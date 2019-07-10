@@ -173,10 +173,10 @@
   },
   {
     "method": "POST",
-    "path": "/counter",
-    "query": "statusCode=402",
+    "path": "/error",
+    "query": "",
     "request": "",
-    "response": "Returning specified statusCode",
+    "response": "Error!",
     "status": 402,
     "statusText": "Payment Required",
     "contentType": "text/html; charset=utf-8"

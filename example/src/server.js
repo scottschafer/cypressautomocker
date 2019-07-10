@@ -42,12 +42,10 @@ app.delete('/counter', function (req, res) {
   res.send('counter reset');
 })
 
+// if ?increment is passed, the counter is incremented
+// if ?delay is passed, the API takes the specified time to complete
 app.post('/counter', function (req, res) {  
   const query = url.parse(req.url, true).query;
-  if (query.statusCode) {
-    res.status(parseInt(query.statusCode, 10)).send('Returning specified statusCode');
-    return;
-  }
   function respond() {
     if (query.increment) {
       counter += parseInt(query.increment);
@@ -63,3 +61,7 @@ app.post('/counter', function (req, res) {
     respond();
   }
 })
+
+app.post('/error', function (req, res) {
+  res.status(402).send('Error!');
+});

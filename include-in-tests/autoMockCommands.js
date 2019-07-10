@@ -80,7 +80,7 @@ function registerAutoMockCommands() {
 
   Cypress.Commands.add("automockEnd", () => {
     if (automocker.isRecording) {
-      cy.waitOnPendingAPIs().then(() => {
+      cy.automockWaitOnPendingAPIs().then(() => {
         automocker.isRecording = false;
       });
       // use undocumented field to determine if the test failed
@@ -92,26 +92,29 @@ function registerAutoMockCommands() {
     automocker.isMocking = false;
   });
 
-  Cypress.Commands.add("inspectRequests", (param1, param2) => {
-    if (!automocker.isRecording) {
-      return; // no-op for now when using live server
-    }
+  // not implemented for now
+  //
+  // Cypress.Commands.add("inspectRequests", (param1, param2) => {
+  //   if (automocker.isRecording) {
+  //     return; // no-op for now when using live server
+  //   }
 
-    let mockedRequests = testServerAPI.mockedRequests();
-    let testFunction;
+  //   debugger;
+  //   let mockedRequests = testServerAPI.mockedRequests();
+  //   let testFunction;
 
-    if (typeof param1 === "function") {
-      testFunction = param1;
-    } else {
-      testFunction = param2;
-      mockedRequests = mockedRequests.filter(val => {
-        return val.apiKey.indexOf(param1) !== -1;
-      });
-    }
-    testFunction(mockedRequests);
-  });
+  //   if (typeof param1 === "function") {
+  //     testFunction = param1;
+  //   } else {
+  //     testFunction = param2;
+  //     mockedRequests = mockedRequests.filter(val => {
+  //       return val.apiKey.indexOf(param1) !== -1;
+  //     });
+  //   }
+  //   testFunction(mockedRequests);
+  // });
 
-  Cypress.Commands.add("waitOnPendingAPIs", () => {
+  Cypress.Commands.add("automockWaitOnPendingAPIs", () => {
     return new Cypress.Promise((resolve, reject) => {
       if (pendingApiCount) {
         console.log("waiting on APIs to complete");
@@ -153,19 +156,6 @@ function registerAutoMockCommands() {
 
         if (mock) {
           console.log("MOCKING " + request.url);
-
-          // const Http = new XMLHttpRequest();
-          // const url = '/devnull/' + mock.method
-          //   + request.url.substr(request.url.indexOf('//') + 1).split('?')[0];
-          // Http.open('GET', url);
-          // Http.send();
-
-          // let response = mock.response;
-
-          // if (typeof response === "object") {
-          //   // should this be done in all cases? TBD
-          //   response = JSON.stringify(response);
-          // }
           return {
             status: mock.status,
             statusText: mock.statusText,
