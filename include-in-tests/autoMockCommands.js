@@ -98,8 +98,6 @@ function registerAutoMockCommands() {
   //   if (automocker.isRecording) {
   //     return; // no-op for now when using live server
   //   }
-
-  //   debugger;
   //   let mockedRequests = testServerAPI.mockedRequests();
   //   let testFunction;
 
