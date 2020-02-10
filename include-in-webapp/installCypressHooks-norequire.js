@@ -302,6 +302,14 @@
 
     overrideMimeType: function overrideMimeType(mimeType) {
       this.object.overrideMimeType(mimeType);
+    },
+
+    addEventListener: function(type, callback) {
+      this.object.addEventListener(type, callback);
+    },
+  
+    removeEventListener: function(type, callback) {
+      this.object.removeEventListener(type, callback);
     }
   };
   FakeXMLHttpRequest.prototype.constructor = FakeXMLHttpRequest;
