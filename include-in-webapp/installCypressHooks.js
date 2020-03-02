@@ -327,6 +327,7 @@ FakeXMLHttpRequest.prototype = {
   },
 
   addEventListener: function(type, callback) {
+    this['on' + type] = callback;
     this.object.addEventListener(type, callback);
   },
 
