@@ -13,7 +13,7 @@
   "dependencies": {
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "whatwg-fetch": "^2.0.4",
