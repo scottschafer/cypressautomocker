@@ -79,7 +79,7 @@ after(() => {
 });
 ```
 
-The `cy.automock()` takes an optional parameter whcih may contain a function named `resolveMockFunc`. This can be used to
+The `cy.automock()` takes an optional parameter which may contain a function named `resolveMockFunc`. This can be used to
 resolve to a different recorded mock than this library would normally pick. You can pass it like so:
 
 ```js
