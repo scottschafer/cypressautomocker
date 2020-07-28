@@ -33,7 +33,7 @@ function registerAutoMockCommands() {
       ? Cypress.config().automocker.playback !== false
       : true;
 
-    const testDirPath = "./cypress/integration";
+    const testDirPath = Cypress.config().integrationFolder;
     options = setOptions(options);
 
     // determine the mock file name
